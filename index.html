@@ -8,31 +8,25 @@
 </head>
 <body>
     <h5>您的账户余额是</h5><span id="amount">&&&amount&&&</span>
-    <button id="btn"></button>
+    <button id="btn">-1s</button>
     <script>
-        let btn = document.getElementById('btn')
-
-        btn.addEventListener('click',function(e){
+        btn.addEventListener('click', (e)=>{
             let script = document.createElement('script')
-            let functionName = 'frank' + parseInt(Math.random() * 100000, 10)
-            window[functionName] = function(result) {
-                if(result === 'success'){
-                    amount.innerText -= 1
-                }
+            let functionName = 'frank'+ parseInt(Math.random()*10000000 ,10)  // 生成一个随机的函数名
+            window[functionName] = function(){ 
+                amount.innerText = amount.innerText - 0 - 1
+            }
+            script.src = '/pay?callback=' + functionName
+            document.body.appendChild(script)
+            script.onload = function(e){
+                e.currentTarget.remove()
+                delete window[functionName] 
+            }
+            script.onload = function(e){
+                e.currentTarget.remove()
+                delete window[functionName] 
             }
         })
-        
-        script.src = 'http://jack.com:8002?pay?callback=' + functionName
-        document.body.appendChild(script)
-        script.onload = function(e){
-            e.currentTarget.remove()
-            delete window[functionName] 
-        }
-        script.onerror = function(){
-            alert('failed')
-            e.currentTarget.remove()
-            delete window[functionName]
-        }
     
     </script>
 </body>
