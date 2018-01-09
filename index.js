@@ -34,8 +34,9 @@ var server = http.createServer(function (request, response) {
     var amount = fs.readFileSync('./db', 'utf-8')
     
     var newAmount = amount - 1
-    fs.writeFileSync('/db',newAmount)
-    console.log('newAmount',typeof newAmount,newAmount)
+    fs.writeFile('./db',newAmount,function err(error) {
+      console.log(error)
+    })
     response.setHeader('Content-Type','text/javacript;charset=utf-8')
     response.write(`
       ${query.callbackName}.call(undefined,'success')
