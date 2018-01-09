@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>jsonp</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h5>您的账户余额是</h5><span id="amount">&&&amount&&&</span>
@@ -13,16 +14,22 @@
         btn.addEventListener('click', (e)=>{
             let script = document.createElement('script')
             let functionName = 'frank'+ parseInt(Math.random()*10000000 ,10)  // 生成一个随机的函数名
-            window[functionName] = function(){ 
-                amount.innerText = amount.innerText - 0 - 1
+            window[functionName] = function(result){ 
+                if (result==='success'){
+                    amount.innerText = amount.innerText - 0 - 1
+                }else{
+                    console.log('zhelicuol')
+                }
+                
             }
-            script.src = '/pay?callback=' + functionName
+            script.src = 'http://jack.com:8002/pay?callbackName=' + functionName
             document.body.appendChild(script)
             script.onload = function(e){
+                console.log('onload')
                 e.currentTarget.remove()
                 delete window[functionName] 
             }
-            script.onload = function(e){
+            script.error = function(e){
                 e.currentTarget.remove()
                 delete window[functionName] 
             }
